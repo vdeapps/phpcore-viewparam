@@ -1,0 +1,51 @@
+{
+    "name": "vdeapps/phpcore-viewparam",
+    "type": "library",
+    "description": "Data organization for the rendering engine",
+    "keywords": [
+        "vdeapps",
+        "library",
+        "render"
+    ],
+    "homepage": "https://github.com/vdeapps/phpcore-viewparam",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "vdeApps",
+            "email": "vdeapps@riseup.net",
+            "homepage": "https://github.com/vdeapps/phpcore-viewparam",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "email": "vdeapps@riseup.net",
+        "issues": "https://github.com/vdeapps/phpcore-viewparam/issues"
+    },
+    "config": {
+        "platform": {
+            "php": "7.0.00"
+        }
+    },
+    "require": {
+        "php": ">=5.5.9",
+        "vdeapps/phpcore-chained-array": "^1.0"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "3.*"
+    },
+    "suggest": {
+    },
+    "autoload": {
+        "psr-4": {
+            "vdeApps\\phpCore\\ViewParam\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "": "tests/"
+        }
+    },
+    "scripts": {
+        "cs-fix": "php-cs-fixer fix . --fixers=-psr0"
+    }
+}
