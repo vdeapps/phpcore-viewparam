@@ -66,9 +66,9 @@ class ViewParam extends ChainedArray implements ViewParamInterface
     protected function addTo($key, $name, $mixed = null)
     {
         if (is_array($name)) {
-            $this->aData[$key] = $name;
+            $this->{$key} = $name;
         } else {
-            $this->aData[$key][$name] = $mixed;
+            $this->{$key}->{$name} = $mixed;
         }
         
         return $this;
@@ -248,5 +248,13 @@ class ViewParam extends ChainedArray implements ViewParamInterface
     public function getOther($key, $name = null)
     {
         return $this->getFrom($key, $name);
+    }
+    
+    /**
+     * Return array
+     * @return array
+     */
+    public function getAData(){
+        return $this->toArray();
     }
 }
