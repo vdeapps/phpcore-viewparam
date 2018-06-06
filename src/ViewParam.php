@@ -48,7 +48,7 @@ class ViewParam extends ChainedArray implements ViewParamInterface
      * @internal param awcArray $mixed
      *
      */
-    public function addResponse($message, $status = STATUS_POST_OK)
+    public function addResponse($message, $status = 200)
     {
         return $this->addTo('response', 'statut', $status)
                     ->addTo('response', 'message', $message);
@@ -165,7 +165,7 @@ class ViewParam extends ChainedArray implements ViewParamInterface
      * @param      $key
      * @param null $name
      *
-     * @return \App\Webcore\awcArray|false|string
+     * @return ChainedArray|false|string
      */
     protected function getFrom($key, $name = null)
     {

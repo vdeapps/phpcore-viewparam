@@ -98,4 +98,10 @@ interface ViewParamInterface
      * @return mixed
      */
     public function getOther($key, $name = null);
+    
+    /**
+     * Return array result
+     * @return array
+     */
+    public function getAData();
 }
