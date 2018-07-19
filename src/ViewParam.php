@@ -7,21 +7,30 @@ namespace vdeApps\phpCore\ViewParam;
 
 use vdeApps\phpCore\ChainedArray;
 
+define('VP_DATA', 'data');
+define('VP_DEBUG', 'debug');
+define('VP_FILTERS', 'filters');
+define('VP_INFO', 'info');
+define('VP_LIST', 'list');
+define('VP_MAILS', 'mails');
+define('VP_RESPONSE', 'response');
+
 class ViewParam extends ChainedArray implements ViewParamInterface
 {
+    
     /*
      * 'infogene' => [],    //Info général sur la page
-                'filters'  => [], //Liste des filtres dispo
-                'list'     => [      // Gestion des listes
-                                     'entreprise' => [],
-                                     'communes'   => [],
-                                     'pays'       => [],
-                ],
-                'data'     => [   // Les données
-                                  'rowsEntreprises' => [],
-                                  'rowsAgences'     => [],
-                                  'people'          => $rows,
-                ],
+        'filters'  => [], //Liste des filtres dispo
+        'list'     => [      // Gestion des listes
+                             'entreprise' => [],
+                             'communes'   => [],
+                             'pays'       => [],
+        ],
+        'data'     => [   // Les données
+                          'rowsEntreprises' => [],
+                          'rowsAgences'     => [],
+                          'people'          => $rows,
+        ],
      */
     
     
@@ -40,6 +49,15 @@ class ViewParam extends ChainedArray implements ViewParamInterface
     }
     
     /**
+     * retourne le tableau
+     * @return array
+     */
+    public function __invoke()
+    {
+        return $this->toArray();
+    }
+    
+    /**
      * @param     $message
      * @param int $status
      *
@@ -50,9 +68,10 @@ class ViewParam extends ChainedArray implements ViewParamInterface
      */
     public function addResponse($message, $status = 200)
     {
-        return $this->addTo('response', 'statut', $status)
-                    ->addTo('response', 'message', $message);
+        return $this->addvp(VP_RESPONSE, 'status', $status)
+                    ->addvp(VP_RESPONSE, 'message', $message);
     }
+    
     
     /**
      * Ajout dans la liste
@@ -63,7 +82,7 @@ class ViewParam extends ChainedArray implements ViewParamInterface
      *
      * @return $this
      */
-    protected function addTo($key, $name, $mixed = null)
+    public function addvp($key, $name, $mixed = null)
     {
         if (is_array($name)) {
             $this->{$key} = $name;
@@ -75,91 +94,6 @@ class ViewParam extends ChainedArray implements ViewParamInterface
     }
     
     /**
-     * retourne le tableau
-     * @return array
-     */
-    public function __invoke()
-    {
-        return $this->getAData();
-    }
-    
-    /**
-     * @param string   $name
-     * @param awcArray $mixed
-     *
-     * @return $this
-     */
-    public function addInfogene($name, $mixed = null)
-    {
-        return $this->addTo('infogene', $name, $mixed);
-    }
-    
-    /**
-     * @param string   $name
-     * @param awcArray $mixed
-     *
-     * @return $this
-     */
-    public function addFilter($name, $mixed = null)
-    {
-        return $this->addTo('filters', $name, $mixed);
-    }
-    
-    /**
-     * @param string   $name
-     * @param awcArray $mixed
-     *
-     * @return $this
-     */
-    public function addList($name, $mixed = null)
-    {
-        return $this->addTo('list', $name, $mixed);
-    }
-    
-    /**
-     * @param string   $name
-     * @param awcArray $mixed
-     *
-     * @return $this
-     */
-    public function addData($name, $mixed = null)
-    {
-        return $this->addTo('data', $name, $mixed);
-    }
-    
-    /**
-     * @param string   $name
-     * @param awcArray $mixed
-     *
-     * @return $this
-     */
-    public function addMails($name, $mixed = null)
-    {
-        return $this->addTo('emails', $name, $mixed);
-    }
-    
-    /**
-     * @param string   $name
-     * @param awcArray $mixed
-     *
-     * @return $this
-     */
-    public function addDebug($name, $mixed = null)
-    {
-        return $this->addTo('debug', $name, $mixed);
-    }
-    
-    /**
-     * @param $name
-     *
-     * @return mixed
-     */
-    public function getDebug($name = null)
-    {
-        return $this->getFrom('debug', $name);
-    }
-    
-    /**
      * Retourne la recherche
      *
      * @param      $key
@@ -167,7 +101,7 @@ class ViewParam extends ChainedArray implements ViewParamInterface
      *
      * @return ChainedArray|false|string
      */
-    protected function getFrom($key, $name = null)
+    public function getvp($key, $name = null)
     {
         $data = $this->get($key);
         
@@ -176,85 +110,5 @@ class ViewParam extends ChainedArray implements ViewParamInterface
         } else {
             return $data->get($name);
         }
-    }
-    
-    /**
-     * @param $name
-     *
-     * @return mixed
-     */
-    public function getMails($name = null)
-    {
-        return $this->getFrom('emails', $name);
-    }
-    
-    /**
-     * @param $key
-     * @param $name
-     * @param $mixed
-     *
-     * @return $this
-     */
-    public function addOther($key, $name, $mixed = null)
-    {
-        return $this->addTo($key, $name, $mixed);
-    }
-    
-    /**
-     * @param $name
-     *
-     * @return mixed
-     */
-    public function getInfoGene($name = null)
-    {
-        return $this->getFrom('infogene', $name);
-    }
-    
-    /**
-     * @param $name
-     *
-     * @return mixed
-     */
-    public function getFilter($name = null)
-    {
-        return $this->getFrom('filters', $name);
-    }
-    
-    /**
-     * @param $name
-     *
-     * @return mixed
-     */
-    public function getList($name = null)
-    {
-        return $this->getFrom('list', $name);
-    }
-    
-    /**
-     * @param $name
-     *
-     * @return mixed
-     */
-    public function getData($name = null)
-    {
-        return $this->getFrom('data', $name);
-    }
-    
-    /**
-     * @param $name
-     *
-     * @return mixed
-     */
-    public function getOther($key, $name = null)
-    {
-        return $this->getFrom($key, $name);
-    }
-    
-    /**
-     * Return array
-     * @return array
-     */
-    public function getAData(){
-        return $this->toArray();
     }
 }
